@@ -23,22 +23,7 @@ class SocketManager1: NSObject {
     func closeConnection() {
         socket.disconnect()
     }
-    /*
-    func connectToServer(nickName: String, completion:@escaping ([[String: AnyObject]]?) -> Void) {
-        socket.emit("connectUser", nickName)
-        
-        socket.on("userList") { (dataArray, ack) in
-            completion(dataArray[0] as? [[String: AnyObject]])
-        }
-        
-        listenForOtherMessages()
-    }
     
-    func exitChat(nickName: String, completion: ()->Void) {
-        socket.emit("exitUser", nickName)
-        completion()
-    }
-    */
     func sendMessage(_ message: String) {
         socket.emit("serverReceiver", message)
     }
@@ -49,7 +34,7 @@ class SocketManager1: NSObject {
             
             if let messageInfo = dataArray[0] as? [String: AnyObject],
                 let clientID = messageInfo["clientID"] as? Int
-            {    
+            {
                 let nickName = "\(clientID) 회원"
                 messageDictionary["clientID"] = nickName
                 messageDictionary["message"] = messageInfo["message"] as? String
@@ -58,29 +43,5 @@ class SocketManager1: NSObject {
             completion(messageDictionary)
         }
     }
-    
-    /*
-    private func listenForOtherMessages() {
-        socket.on("userConnectUpdate") { (dataArray, socketAck) in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userWasConnectedNotification"), object: dataArray[0] as! [String: AnyObject])
-        }
-        
-        socket.on("userExitUpdate") { (dataArray, socketAck) in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userWasDisconnectedNotification"), object: dataArray[0] as! String)
-        }
-        
-        socket.on("userTypingUpdate") { (dataArray, socketAck) in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userTypingNotification"), object: dataArray[0] as! [String: AnyObject])
-        }
-    }
-    
-    func sendStartTypingMessage(nickName: String) {
-        socket.emit("startType", nickName)
-    }
-    
-    func sendStopTypingMessage(nickName: String) {
-        socket.emit("stopType", nickName)
-    }
-    */
 }
 
