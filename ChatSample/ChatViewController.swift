@@ -14,7 +14,8 @@ class ChatViewController: UIViewController {
     
     @IBOutlet var msgEditor: UITextView!
     
-    var nickname: String!
+    var nickname = "User"
+    var roomName = "room1"
     var chatMessages = [[String: String]]()
     var bannerLabelTimer: Timer!
     
@@ -34,7 +35,8 @@ class ChatViewController: UIViewController {
         super.viewWillAppear(animated)
         
         configureTableView()
-//        msgEditor.delegate = self
+        //        msgEditor.delegate = self
+        SocketManager1.shared.joinRoom(roomName, nickName: nickname)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,8 +59,6 @@ class ChatViewController: UIViewController {
     }
     
     private func scrollToBottom() {
-        let delay = 0.1 * Double(NSEC_PER_SEC)
-        
         guard self.chatMessages.count > 0 else { return }
         
         let lastRowIndexPath = IndexPath(row: self.chatMessages.count - 1, section: 0)
@@ -66,10 +66,31 @@ class ChatViewController: UIViewController {
                                    at: .bottom,
                                    animated: true)
     }
-
+    
+    func askForNickname() {
+        
+        let alertController = UIAlertController(title: "socketChat", message: "Please enter a nickname : ", preferredStyle: .alert)
+        alertController.addTextField(configurationHandler: nil)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            
+            
+            let textField = alertController.textFields![0]
+            if textField.text?.count == 0 {
+                self.askForNickname()
+            }
+            else {
+                self.nickname = textField.text ?? "User"
+            }
+        }
+        
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     @IBAction func didTouchedSend(_ sender: UIButton) {
         if msgEditor.text.count > 0 {
-            SocketManager1.shared.sendMessage(msgEditor.text)
+            SocketManager1.shared.chatMessage(msgEditor.text, nickName: nickname, roomName: roomName)
             msgEditor.text = ""
             msgEditor.resignFirstResponder()
         }
@@ -93,10 +114,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "idCellChat", for: indexPath) as! ChatCell
         
-        //{clientID: clientID, message: value}
         let currentChatMessage = chatMessages[indexPath.row]
-        if let senderNickname = currentChatMessage["clientID"],
-            let message = currentChatMessage["message"]
+        if let senderNickname = currentChatMessage["name"],
+            let message = currentChatMessage["msg"]
         {
             cell.lblChatMessage.text = "\(senderNickname) : \(message)"
         }

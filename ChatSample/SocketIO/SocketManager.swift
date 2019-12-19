@@ -10,13 +10,15 @@ import SocketIO
 class SocketManager1: NSObject {
     static let shared = SocketManager1()
     static let manager = SocketManager(socketURL: URL(string: "http://13.125.234.34:3000")!)
+    
     var socket = SocketManager1.manager.defaultSocket
     
-    override init() {
-        super.init()
-    }
+    override init() { super.init() }
     
     func establishConnection() {
+        socket.on("connect") { (data, ack) -> Void in
+            print("socket connected",data,ack)
+        }
         socket.connect()
     }
     
@@ -24,24 +26,30 @@ class SocketManager1: NSObject {
         socket.disconnect()
     }
     
-    func sendMessage(_ message: String) {
-        socket.emit("serverReceiver", message)
+    func chatMessage(_ message: String, nickName: String, roomName: String) {
+        let data:[String:Any] = ["name": nickName, "room": roomName, "msg": message]
+        socket.emit("chat message", data)
     }
     
     func getChatMessage(completion: @escaping ([String: String]) -> Void) {
-        socket.on("clientReceiver") { (dataArray, socketAck) in
+        socket.on("chat message") { (dataArray, socketAck) in
             var messageDictionary = [String: String]()
             
             if let messageInfo = dataArray[0] as? [String: AnyObject],
-                let clientID = messageInfo["clientID"] as? Int
+                let clientID = messageInfo["name"] as? String
             {
                 let nickName = "\(clientID) 회원"
-                messageDictionary["clientID"] = nickName
-                messageDictionary["message"] = messageInfo["message"] as? String
+                messageDictionary["name"] = nickName
+                messageDictionary["msg"] = messageInfo["msg"] as? String
             }
             
             completion(messageDictionary)
         }
+    }
+    
+    func joinRoom(_ roomName: String, nickName: String) {
+        let data:[String:Any] = ["room": roomName, "name": nickName]
+        socket.emit("join", data)
     }
 }
 

@@ -66,10 +66,13 @@ extension UserViewController {
     }
     
     func askForNickname() {
+        /*
         let alertController = UIAlertController(title: "socketChat", message: "Please enter a nickname : ", preferredStyle: .alert)
         alertController.addTextField(configurationHandler: nil)
         
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            
+            
             let textField = alertController.textFields![0]
             if textField.text?.count == 0 {
                 self.askForNickname()
@@ -87,10 +90,13 @@ extension UserViewController {
                                                         }
                 })
             }
+            
+ 
         }
         
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+         */
     }
 }
 
