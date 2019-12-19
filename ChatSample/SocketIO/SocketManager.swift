@@ -6,12 +6,22 @@
 //  Copyright © 2019 Grabity. All rights reserved.
 //
 import SocketIO
+import RxSwift
+
+struct Message {
+    let name: String
+    let text: String
+}
+
+struct User {
+    let name: String
+    
+}
 
 class SocketManager1: NSObject {
     static let shared = SocketManager1()
-    static let manager = SocketManager(socketURL: URL(string: "http://13.125.234.34:3000")!)
     
-    var socket = SocketManager1.manager.defaultSocket
+    var socket = SocketManager(socketURL: URL(string: "http://13.125.234.34:3000")!).defaultSocket
     
     override init() { super.init() }
     
@@ -29,6 +39,20 @@ class SocketManager1: NSObject {
     func chatMessage(_ message: String, nickName: String, roomName: String) {
         let data:[String:Any] = ["name": nickName, "room": roomName, "msg": message]
         socket.emit("chat message", data)
+    }
+    
+    func getMessageOb() -> Observable<Message?> {
+        return socket.rx_event
+            .filter({ $0.event == "chat message" })
+            .map({ (event) -> Message? in
+                guard let msgDict = event.items?.first as? [String: String],
+                    let userName = msgDict["name"],
+                    let msg = msgDict["msg"] else {
+                    return nil
+                }
+                
+                return Message(name: userName, text: msg)
+            })
     }
     
     func getChatMessage(completion: @escaping ([String: String]) -> Void) {

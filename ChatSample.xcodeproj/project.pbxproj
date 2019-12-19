@@ -21,6 +21,7 @@
 		047FB4BE23A2314C00FA6660 /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047FB4B923A2314C00FA6660 /* ChatCell.xib */; };
 		047FB4BF23A2314C00FA6660 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047FB4BA23A2314C00FA6660 /* ChatCell.swift */; };
 		047FB4C023A2314C00FA6660 /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047FB4BB23A2314C00FA6660 /* UserCell.xib */; };
+		04E9ED4823AB44820039DFE1 /* SocketIO + Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9ED4723AB44820039DFE1 /* SocketIO + Rx.swift */; };
 		05B875DFE00CE6172ACD675D /* Pods_ChatSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0BA06F725722BDE5503F5A /* Pods_ChatSample.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		047FB4B923A2314C00FA6660 /* ChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
 		047FB4BA23A2314C00FA6660 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		047FB4BB23A2314C00FA6660 /* UserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
+		04E9ED4723AB44820039DFE1 /* SocketIO + Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocketIO + Rx.swift"; sourceTree = "<group>"; };
 		69B44D3E446D6155594CC1DB /* Pods-ChatSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSample.debug.xcconfig"; path = "Target Support Files/Pods-ChatSample/Pods-ChatSample.debug.xcconfig"; sourceTree = "<group>"; };
 		6F0BA06F725722BDE5503F5A /* Pods_ChatSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F764D03D02208B746F4159D4 /* Pods-ChatSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSample.release.xcconfig"; path = "Target Support Files/Pods-ChatSample/Pods-ChatSample.release.xcconfig"; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				047FB4B423A22AC200FA6660 /* SocketIOManager.swift */,
 				04447B4223A242B700DB7AB9 /* SocketManager.swift */,
+				04E9ED4723AB44820039DFE1 /* SocketIO + Rx.swift */,
 			);
 			path = SocketIO;
 			sourceTree = "<group>";
@@ -242,6 +245,9 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ChatSample/Pods-ChatSample-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
@@ -249,6 +255,9 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 			);
@@ -265,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				047FB4BC23A2314C00FA6660 /* UserCell.swift in Sources */,
+				04E9ED4823AB44820039DFE1 /* SocketIO + Rx.swift in Sources */,
 				047FB4A523A21C2F00FA6660 /* UserViewController.swift in Sources */,
 				04447B4523A322FC00DB7AB9 /* ChatViewController.swift in Sources */,
 				04447B4323A242B700DB7AB9 /* SocketManager.swift in Sources */,
